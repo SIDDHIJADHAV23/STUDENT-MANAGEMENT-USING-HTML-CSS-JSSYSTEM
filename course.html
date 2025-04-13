@@ -1,0 +1,842 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IKI - Student Management System</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f0f2f5;
+        }
+        
+        .navbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0.8rem 1.5rem;
+            background: linear-gradient(90deg,#3f37c9 0%, #3f37c9 100%);
+            color: white;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        
+        .logo-icon {
+            width: 30px;
+            height: 30px;
+            background-color: #f8c363;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #4a67c7;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+        
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-size: 0.95rem;
+        }
+        
+        .container {
+            padding: 1.5rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #4a67c7;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+        }
+        
+        .user-name {
+            font-size: 0.9rem;
+        }
+        
+        .admin-badge {
+            background-color: #7289da;
+            color: white;
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+        }
+        
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .page-title {
+            font-size: 1.8rem;
+            color: #444;
+            margin-bottom: 0.5rem;
+        }
+        
+        .subtitle {
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        .action-btn {
+            background-color: #4a67c7;
+            color: white;
+            border: none;
+            padding: 0.6rem 1rem;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+        
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .course-card {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .course-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .course-header {
+            padding: 1rem;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .course-title {
+            font-size: 1.1rem;
+            color: #333;
+            margin-bottom: 0.2rem;
+        }
+        
+        .course-info {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+            color: #666;
+            font-size: 0.8rem;
+        }
+        
+        .course-body {
+            padding: 1rem;
+        }
+        
+        .course-stats {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-value {
+            font-size: 1.2rem;
+            color: #4a67c7;
+            font-weight: bold;
+        }
+        
+        .stat-label {
+            font-size: 0.8rem;
+            color: #666;
+        }
+        
+        .course-footer {
+            padding: 1rem;
+            background-color: #f9f9f9;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .btn {
+            background-color: transparent;
+            border: 1px solid #4a67c7;
+            color: #4a67c7;
+            padding: 0.4rem 0.8rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: all 0.3s ease;
+        }
+        
+        .btn:hover {
+            background-color: #4a67c7;
+            color: white;
+        }
+        
+        .btn-primary {
+            background-color: #4a67c7;
+            color: white;
+        }
+        
+        .course-detail {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            margin-bottom: 1.5rem;
+        }
+        
+        .detail-header {
+            padding: 1.5rem;
+            background: linear-gradient(90deg, #4a67c7 0%, #7289da 100%);
+            color: white;
+        }
+        
+        .detail-title {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .detail-info {
+            display: flex;
+            gap: 2rem;
+        }
+        
+        .info-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+        }
+        
+        .detail-body {
+            padding: 1.5rem;
+        }
+        
+        .tab-navigation {
+            display: flex;
+            gap: 1rem;
+            border-bottom: 1px solid #eee;
+            margin-bottom: 1.5rem;
+        }
+        
+        .tab {
+            padding: 0.8rem 1rem;
+            cursor: pointer;
+            color: #666;
+            position: relative;
+        }
+        
+        .tab.active {
+            color: #4a67c7;
+            font-weight: bold;
+        }
+        
+        .tab.active::after {
+            content: "";
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background-color: #4a67c7;
+        }
+        
+        .detail-section {
+            margin-bottom: 1.5rem;
+        }
+        
+        .section-title {
+            font-size: 1.1rem;
+            color: #444;
+            margin-bottom: 1rem;
+            border-left: 3px solid #4a67c7;
+            padding-left: 0.8rem;
+        }
+        
+        .module-list {
+            display: grid;
+            gap: 1rem;
+        }
+        
+        .module-item {
+            background-color: #f9f9f9;
+            border-radius: 6px;
+            padding: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            transition: background-color 0.3s ease;
+        }
+        
+        .module-item:hover {
+            background-color: #f0f0f0;
+        }
+        
+        .module-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+        
+        .doc-icon {
+            background-color: #5eb5f7;
+        }
+        
+        .video-icon {
+            background-color: #f76a5e;
+        }
+        
+        .quiz-icon {
+            background-color: #67c179;
+        }
+        
+        .module-content {
+            flex: 1;
+        }
+        
+        .module-title {
+            font-size: 0.95rem;
+            color: #333;
+            margin-bottom: 0.2rem;
+        }
+        
+        .module-desc {
+            font-size: 0.8rem;
+            color: #666;
+        }
+        
+        .student-list {
+            list-style: none;
+        }
+        
+        .student-item {
+            padding: 0.8rem 0;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .student-info {
+            flex: 1;
+        }
+        
+        .student-name {
+            font-size: 0.95rem;
+            color: #333;
+        }
+        
+        .student-details {
+            display: flex;
+            gap: 1rem;
+            font-size: 0.8rem;
+            color: #666;
+            margin-top: 0.2rem;
+        }
+        
+        .progress-bar {
+            width: 150px;
+            height: 6px;
+            background-color: #eee;
+            border-radius: 3px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            background-color: #4a67c7;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .course-card, .course-detail {
+            animation: fadeIn 0.5s ease forwards;
+        }
+
+        .module-item {
+            animation: fadeIn 0.3s ease forwards;
+            animation-delay: calc(var(--i) * 0.1s);
+            opacity: 0;
+        }
+
+        .assignment-section {
+            margin-top: 2rem;
+        }
+
+        .assignment-item {
+            background-color: #f9f9f9;
+            border-radius: 6px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border-left: 3px solid #f76a5e;
+        }
+
+        .assignment-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+        }
+
+        .assignment-title {
+            font-size: 1rem;
+            color: #333;
+        }
+
+        .assignment-due {
+            font-size: 0.8rem;
+            color: #f76a5e;
+        }
+
+        .assignment-desc {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 0.5rem;
+        }
+
+        .grade-info {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.8rem;
+            color: #666;
+        }
+
+        .badge {
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.7rem;
+            color: white;
+        }
+
+        .badge-success {
+            background-color: #67c179;
+        }
+
+        .badge-warning {
+            background-color: #f7c65e;
+        }
+
+        .badge-danger {
+            background-color: #f76a5e;
+        }
+
+        .flex-spread {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <div class="navbar">
+        <div class="logo">
+                   <img src="IKI.jpg"alyt="image" height="60" width="60">
+
+
+            IKI
+        </div>
+        <div class="nav-links">
+            <a href="home.html">Home</a>
+            <a href="students.html">Students</a>
+            <a href="#"  class="active" style="font-weight: bold; border-bottom: 2px solid white;">Courses</a>
+            <a href="attendance.html">Attendance</a>
+            <a href="fees.html">Fees</a>
+            <a href="login.html">Login</a>
+        </div>
+    </div>
+    
+    <!-- Main Content -->
+    <div class="container">
+        <!-- User Info -->
+        <div class="user-info">
+            <div class="avatar">JD</div>
+            <div class="user-name">siddhi jadhav</div>
+            <div class="admin-badge">student</div>
+        </div>
+        
+        <!-- Page Header -->
+        <div class="page-header">
+            <div>
+                <h1 class="page-title">Courses</h1>
+                <p class="subtitle">Manage and view all courses at your school.</p>
+            </div>
+            <button class="action-btn">
+                <span>+</span> Add New Course
+            </button>
+        </div>
+        
+        <!-- Course Grid -->
+        <div class="grid">
+            <!-- Course Card 1 -->
+            <div class="course-card">
+                <div class="course-header">
+                    <h3 class="course-title">Adv.PHP</h3>
+                    <div class="course-info">
+                        <span>BCA</span> • <span>42 Students</span>
+                    </div>
+                </div>
+                <div class="course-body">
+                    <div class="course-stats">
+                        <div class="stat-item">
+                            <div class="stat-value">87%</div>
+                            <div class="stat-label">Attendance</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">92%</div>
+                            <div class="stat-label">Completion</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">78%</div>
+                            <div class="stat-label">Avg Grade</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="course-footer">
+                    <div class="badge badge-warning">Quiz Due: Feb 28</div>
+                    <button class="btn">View Details</button>
+                </div>
+            </div>
+            
+            <!-- Course Card 2 -->
+            <div class="course-card">
+                <div class="course-header">
+                    <h3 class="course-title">Digital Marketing</h3>
+                    <div class="course-info">
+                        <span>All classes</span> • <span>38 Students</span>
+                    </div>
+                </div>
+                <div class="course-body">
+                    <div class="course-stats">
+                        <div class="stat-item">
+                            <div class="stat-value">91%</div>
+                            <div class="stat-label">Attendance</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">85%</div>
+                            <div class="stat-label">Completion</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">82%</div>
+                            <div class="stat-label">Avg Grade</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="course-footer">
+                    <div class="badge badge-success">No Due Tasks</div>
+                    <button class="btn">View Details</button>
+                </div>
+            </div>
+            
+            <!-- Course Card 3 -->
+            <div class="course-card">
+                <div class="course-header">
+                    <h3 class="course-title">IT</h3>
+                    <div class="course-info">
+                        <span>Class BCS</span> • <span>35 Students</span>
+                    </div>
+                </div>
+                <div class="course-body">
+                    <div class="course-stats">
+                        <div class="stat-item">
+                            <div class="stat-value">85%</div>
+                            <div class="stat-label">Attendance</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">78%</div>
+                            <div class="stat-label">Completion</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">75%</div>
+                            <div class="stat-label">Avg Grade</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="course-footer">
+                    <div class="badge badge-danger">Paper Due: Mar 5</div>
+                    <button class="btn">View Details</button>
+                </div>
+            </div>
+            
+            <!-- Course Card 4 -->
+            <div class="course-card">
+                <div class="course-header">
+                    <h3 class="course-title">Computer Science - Programming</h3>
+                    <div class="course-info">
+                        <span> All Classes</span> • <span>40 Students</span>
+                    </div>
+                </div>
+                <div class="course-body">
+                    <div class="course-stats">
+                        <div class="stat-item">
+                            <div class="stat-value">94%</div>
+                            <div class="stat-label">Attendance</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">89%</div>
+                            <div class="stat-label">Completion</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">86%</div>
+                            <div class="stat-label">Avg Grade</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="course-footer">
+                    <div class="badge badge-warning">Project Due: Mar 15</div>
+                    <button class="btn">View Details</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Course Detail -->
+        <div class="course-detail">
+            <div class="detail-header">
+                <h2 class="detail-title">Web Devlopment</h2>
+                <div class="detail-info">
+                    <div class="info-item">
+                        <span>Classes:</span>
+                        <strong>11th to degree</strong>
+                    </div>
+                    <div class="info-item">
+                        <span>Teacher:</span>
+                        <strong>Prof. Pranjali Pandhare</strong>
+                    </div>
+                    <div class="info-item">
+                        <span>Schedule:</span>
+                        <strong>Mon, Wed, Fri (10:30-11:30 AM)</strong>
+                    </div>
+                    <div class="info-item">
+                        <span>Students:</span>
+                        <strong>42</strong>
+                    </div>
+                </div>
+            </div>
+            <div class="detail-body">
+                <div class="tab-navigation">
+                    <div class="tab active">Overview</div>
+                    <div class="tab">Modules</div>
+                    <div class="tab">Assignments</div>
+                    <div class="tab">Students</div>
+                    <div class="tab">Fees</div>
+                </div>
+                
+                <div class="detail-section">
+                    <h3 class="section-title">Course Description</h3>
+                    <p>A web development course teaches individuals how to build and maintain websites and web applications, covering fundamental programming languages like HTML, CSS, and JavaScript, enabling them to create interactive and responsive web pages, often including server-side development with languages like Python, PHP, or Node.js, alongside database management (SQL) and best practices for web security and deployment, allowing students to design and develop fully functional websites from scratch. </p>
+                </div>
+                
+                <div class="detail-section">
+                    <div class="flex-spread">
+                        <h3 class="section-title">Course Modules</h3>
+                        <button class="btn">View All Modules</button>
+                    </div>
+                    <div class="module-list">
+                        <div class="module-item" style="--i: 1">
+                            <div class="module-icon doc-icon">📝</div>
+                            <div class="module-content">
+                                <h4 class="module-title">Introduction to web</h4>
+                                <p class="module-desc">Basic concepts, variables and constants</p>
+                            </div>
+                            <div>
+                                <span class="badge badge-success">Completed</span>
+                            </div>
+                        </div>
+                        <div class="module-item" style="--i: 2">
+                            <div class="module-icon video-icon">🎬</div>
+                            <div class="module-content">
+                                <h4 class="module-title">logic Equations</h4>
+                                <p class="module-desc">Solving equations, graphing lines</p>
+                            </div>
+                            <div>
+                                <span class="badge badge-success">Completed</span>
+                            </div>
+                        </div>
+                        <div class="module-item" style="--i: 3">
+                            <div class="module-icon doc-icon">📝</div>
+                            <div class="module-content">
+                                <h4 class="module-title"> Functions</h4>
+                                <p class="module-desc">Parabolas, roots, and applications</p>
+                            </div>
+                            <div>
+                                <span class="badge badge-warning">In Progress</span>
+                            </div>
+                        </div>
+                        <div class="module-item" style="--i: 4">
+                            <div class="module-icon quiz-icon">❓</div>
+                            <div class="module-content">
+                                <h4 class="module-title">Tag</h4>
+                                <p class="module-desc">Mid-term assessment - 25 questions</p>
+                            </div>
+                            <div>
+                                <span class="badge badge-danger">Due Feb 28</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="assignment-section">
+                    <div class="flex-spread">
+                        <h3 class="section-title">Recent Assignments</h3>
+                        <button class="btn">View All Assignments</button>
+                    </div>
+                    
+                    <div class="assignment-item">
+                        <div class="assignment-header">
+                            <h4 class="assignment-title">Digital Marketing</h4>
+                            <div class="assignment-due">Due: Feb 28, 2025</div>
+                        </div>
+                        <p class="assignment-desc">write detail about what is marketing. 25 multiple choice questions with a 45-minute time limit.</p>
+                        <div class="grade-info">
+                            <span>Max Points: 100</span> • 
+                            <span>Weight: 20%</span>
+                        </div>
+                    </div>
+                    
+                    <div class="assignment-item">
+                        <div class="assignment-header">
+                            <h4 class="assignment-title">DSA</h4>
+                            <div class="assignment-due">Due: Mar 10, 2025</div>
+                        </div>
+                        <p class="assignment-desc">Complete problems 1-15 from Chapter 4 of the textbook. Show all work for full credit.</p>
+                        <div class="grade-info">
+                            <span>Max Points: 50</span> • 
+                            <span>Weight: 10%</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="detail-section">
+                    <div class="flex-spread">
+                        <h3 class="section-title">Top Performing Students</h3>
+                        <button class="btn">View All Students</button>
+                    </div>
+                    
+                    <ul class="student-list">
+                        <li class="student-item">
+                            <div class="avatar">SS</div>
+                            <div class="student-info">
+                                <div class="student-name">Sakshi Shinde</div>
+                                <div class="student-details">
+                                    <span>Class BCA</span> • 
+                                    <span>Roll #12</span> •
+                                    <span>Grade: A+</span>
+                                </div>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 95%"></div>
+                            </div>
+                            <div>95%</div>
+                        </li>
+                        <li class="student-item">
+                            <div class="avatar">SS</div>
+                            <div class="student-info">
+                                <div class="student-name">Sara Shekh</div>
+                                <div class="student-details">
+                                    <span>Class BCS</span> • 
+                                    <span>Roll #05</span> •
+                                    <span>Grade: A</span>
+                                </div>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 92%"></div>
+                            </div>
+                            <div>92%</div>
+                        </li>
+                        <li class="student-item">
+                            <div class="avatar">RK</div>
+                            <div class="student-info">
+                                <div class="student-name">Rohan Kumar</div>
+                                <div class="student-details">
+                                    <span>Class BCA</span> • 
+                                    <span>Roll #08</span> •
+                                    <span>Grade: A</span>
+                                </div>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 90%"></div>
+                            </div>
+                            <div>90%</div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Add animation delay to module items
+        document.addEventListener('DOMContentLoaded', function() {
+            const moduleItems = document.querySelectorAll('.module-item');
+            moduleItems.forEach((item, index) => {
+                item.style.setProperty('--i', index + 1);
+            });
+            
+            // Simple tab functionality
+            const tabs = document.querySelectorAll('.tab');
+            tabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    tabs.forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
+                });
+            });
+        });
+    </script>
+</body>
+</html>

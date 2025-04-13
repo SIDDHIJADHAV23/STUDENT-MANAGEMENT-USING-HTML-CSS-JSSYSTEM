@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Infinity Knowledge Institute - Attendance</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f0f2f5;
+        }
+        
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: linear-gradient(90deg,#3f37c9 0%, #3f37c9 100%);
+            padding: 10px 20px;
+            color: white;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .logo img {
+            width: 40px;
+            height: 40px;
+        }
+        
+        .logo h1 {
+            font-size: 1.5rem;
+            font-weight: 500;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 20px;
+        }
+        
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            padding: 8px 15px;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+        
+        .nav-links a:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        
+        .nav-links a.active {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+        }
+        
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .header h2 {
+            color: #333;
+        }
+        
+        .btn-group {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .btn {
+            padding: 8px 16px;
+            border-radius: 4px;
+            border: none;
+            cursor: pointer;
+            font-weight: 500;
+        }
+        
+        .btn-primary {
+            background-color: #1a73e8;
+            color: white;
+        }
+        
+        .btn-outline {
+            background-color: white;
+            color: #1a73e8;
+            border: 1px solid #1a73e8;
+        }
+        
+        .date-selector {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .date-selector button {
+            background: none;
+            border: none;
+            color: #1a73e8;
+            cursor: pointer;
+            font-size: 18px;
+            padding: 5px 10px;
+        }
+        
+        .date-selector span {
+            margin: 0 10px;
+            font-weight: 500;
+        }
+        
+        .mark-btn {
+            background-color: #3a8a51;
+            color: white;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-left: 20px;
+        }
+        
+        .calendar {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .day {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .day:hover {
+            background-color: #e0e0e0;
+        }
+        
+        .day.weekend {
+            color: #e57373;
+        }
+        
+        .day.today {
+            background-color: #1a73e8;
+            color: white;
+        }
+        
+        .day.selected {
+            border: 2px solid #1a73e8;
+        }
+        
+        .day.absent {
+            color: #e57373;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        th, td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        th {
+            background-color: #f9f9f9;
+            color: #555;
+            font-weight: 500;
+        }
+        
+        .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #1a73e8;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+        
+        .student-info {
+            display: flex;
+            align-items: center;
+        }
+        
+        .status {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            margin-right: 5px;
+        }
+        
+        .status.present {
+            background-color: #4caf50;
+        }
+        
+        .status.absent {
+            background-color: #f44336;
+        }
+        
+        .toggle {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 30px;
+        }
+        
+        .toggle input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 34px;
+        }
+        
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 22px;
+            width: 22px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+        
+        input:checked + .slider {
+            background-color: #4caf50;
+        }
+        
+        input:checked + .slider:before {
+            transform: translateX(30px);
+        }
+        
+        .summary {
+            margin-top: 20px;
+        }
+        
+        .summary h3 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+        
+        .attendance-chart {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+        }
+        
+        .chart-placeholder {
+            height: 200px;
+            background-color: #f0f2f5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #888;
+            border-radius: 4px;
+        }
+
+        .real-time-clock {
+            font-size: 14px;
+            color: #666;
+            text-align: right;
+            margin-bottom: 10px;
+        }
+
+        @media (max-width: 768px) {
+            .calendar .day {
+                width: 30px;
+                height: 30px;
+                font-size: 12px;
+            }
+            
+            table {
+                display: block;
+                overflow-x: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="logo">
+            <img src="IKI.jpg" alt="Infinity Knowledge Institute Logo">
+            <h1>Infinity Knowledge Institute</h1>
+        </div>
+        <div class="nav-links">
+            <a href="home.html">Home</a>
+            <a href="students.html">Students</a>
+            <a href="course.html">Courses</a>
+            <a href="attendance.html" class="active">Attendance</a>
+            <a href="fees.html">Fees</a>
+            <a href="login.html">Login</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h2>Time & Attendance</h2>
+            <div class="btn-group">
+                <button class="btn btn-outline">Export Reports</button>
+                <button class="btn btn-primary">Add Student</button>
+            </div>
+        </div>
+
+        <!-- Real-time Clock -->
+        <div class="real-time-clock" id="real-time-clock">
+            Current Time: March 15, 2025 12:00:00
+        </div>
+
+        <!-- Date Selector -->
+        <div class="date-selector">
+            <button id="prev-date">◀</button>
+            <span id="current-date">March 1 - March 31, 2025</span>
+            <button id="next-date">▶</button>
+            <button class="mark-btn">Mark Attendance</button>
+        </div>
+
+        <!-- Calendar -->
+        <div class="calendar" id="calendar">
+            <div class="day">1</div>
+            <div class="day">2</div>
+            <div class="day">3</div>
+            <div class="day">4</div>
+            <div class="day">5</div>
+            <div class="day">6</div>
+            <div class="day">7</div>
+            <div class="day weekend">8</div>
+            <div class="day weekend">9</div>
+            <div class="day today">10</div>
+            <div class="day">11</div>
+            <div class="day">12</div>
+            <div class="day">13</div>
+            <div class="day">14</div>
+            <div class="day weekend">15</div>
+            <div class="day weekend">16</div>
+            <div class="day">17</div>
+            <div class="day">18</div>
+            <div class="day">19</div>
+            <div class="day">20</div>
+            <div class="day">21</div>
+            <div class="day weekend">22</div>
+            <div class="day weekend">23</div>
+            <div class="day">24</div>
+            <div class="day">25</div>
+            <div class="day">26</div>
+            <div class="day">27</div>
+            <div class="day">28</div>
+            <div class="day weekend">29</div>
+            <div class="day weekend">30</div>
+            <div class="day">31</div>
+        </div>
+
+        <!-- Attendance Table -->
+        <table>
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Course</th>
+                    <th>Today</th>
+                    <th>Weekly</th>
+                    <th>Monthly</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <div class="student-info">
+                            <div class="avatar" style="background-color: #4caf50;">JD</div>
+                            <span>John Davis</span>
+                        </div>
+                    </td>
+                    <td>Fulltime</td>
+                    <td>10 hours</td>
+                    <td>40 hours</td>
+                    <td>160 hours</td>
+                    <td><span class="status present"></span> Present</td>
+                    <td>
+                        <label class="toggle">
+                            <input type="checkbox" checked>
+                            <span class="slider"></span>
+                        </label>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="student-info">
+                            <div class="avatar" style="background-color: #2196f3;">AS</div>
+                            <span>Abigail Smith</span>
+                        </div>
+                    </td>
+                    <td>Fulltime</td>
+                    <td>8 hours</td>
+                    <td>35 hours</td>
+                    <td>142 hours</td>
+                    <td><span class="status present"></span> Present</td>
+                    <td>
+                        <label class="toggle">
+                            <input type="checkbox" checked>
+                            <span class="slider"></span>
+                        </label>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="student-info">
+                            <div class="avatar" style="background-color: #ff9800;">RM</div>
+                            <span>Robert Martin</span>
+                        </div>
+                    </td>
+                    <td>Contractor</td>
+                    <td>6 hours</td>
+                    <td>24 hours</td>
+                    <td>96 hours</td>
+                    <td><span class="status present"></span> Present</td>
+                    <td>
+                        <label class="toggle">
+                            <input type="checkbox" checked>
+                            <span class="slider"></span>
+                        </label>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="student-info">
+                            <div class="avatar" style="background-color: #e91e63;">SJ</div>
+                            <span>Anushka Deshmukh</span>
+                        </div>
+                    </td>
+                    <td>BCA</td>
+                    <td>0 hours</td>
+                    <td>16 hours</td>
+                    <td>60 hours</td>
+                    <td><span class="status absent"></span> Absent</td>
+                    <td>
+                        <label class="toggle">
+                            <input type="checkbox">
+                            <span class="slider"></span>
+                        </label>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="student-info">
+                            <div class="avatar" style="background-color: #4caf50;">EW</div>
+                            <span>Emily Wilson</span>
+                        </div>
+                    </td>
+                    <td>Fulltime</td>
+                    <td>10 hours</td>
+                    <td>40 hours</td>
+                    <td>158 hours</td>
+                    <td><span class="status present"></span> Present</td>
+                    <td>
+                        <label class="toggle">
+                            <input type="checkbox" checked>
+                            <span class="slider"></span>
+                        </label>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- Attendance Summary -->
+        <div class="summary">
+            <h3>Attendance Summary</h3>
+            <div class="attendance-chart">
+                <div class="chart-placeholder">Attendance metrics visualization will appear here</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Update real-time clock
+        function updateClock() {
+            const now = new Date();
+            const options = { 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit'
+            };
+            document.getElementById('real-time-clock').textContent = 'Current Time: ' + now.toLocaleDateString('en-US', options);
+        }
+        
+        setInterval(updateClock, 1000);
+        updateClock();
+        
+        // Initialize the calendar days
+        const calendarDays = document.querySelectorAll('.day');
+        calendarDays.forEach(day => {
+            day.addEventListener('click', () => {
+                // Remove selected class from all days
+                calendarDays.forEach(d => d.classList.remove('selected'));
+                // Add selected class to clicked day
+                day.classList.add('selected');
+            });
+        });
+        
+        // Toggle attendance status
+        const toggles = document.querySelectorAll('.toggle input');
+        toggles.forEach((toggle, index) => {
+            toggle.addEventListener('change', () => {
+                const row = toggle.closest('tr');
+                const statusCell = row.querySelector('td:nth-child(6)');
+                const statusDot = statusCell.querySelector('.status');
+                
+                if (toggle.checked) {
+                    statusDot.className = 'status present';
+                    statusCell.innerHTML = '<span class="status present"></span> Present';
+                } else {
+                    statusDot.className = 'status absent';
+                    statusCell.innerHTML = '<span class="status absent"></span> Absent';
+                }
+                
+                // Save attendance to localStorage
+                saveAttendance();
+            });
+        });
+        
+        // Save attendance to localStorage
+        function saveAttendance() {
+            const students = [];
+            const rows = document.querySelectorAll('tbody tr');
+            
+            rows.forEach(row => {
+                const name = row.querySelector('.student-info span').textContent;
+                const course = row.querySelector('td:nth-child(2)').textContent;
+                const isPresent = row.querySelector('.toggle input').checked;
+                
+                students.push({
+                    name,
+                    course,
+                    isPresent,
+                    date: new Date().toISOString().split('T')[0]
+                });
+            });
+            
+            localStorage.setItem('attendance', JSON.stringify(students));
+        }
+        
+        // Load attendance from localStorage
+        function loadAttendance() {
+            const savedAttendance = localStorage.getItem('attendance');
+            if (savedAttendance) {
+                const students = JSON.parse(savedAttendance);
+                const rows = document.querySelectorAll('tbody tr');
+                
+                rows.forEach((row, index) => {
+                    if (students[index]) {
+                        const toggle = row.querySelector('.toggle input');
+                        toggle.checked = students[index].isPresent;
+                        
+                        // Update status display
+                        const statusCell = row.querySelector('td:nth-child(6)');
+                        if (students[index].isPresent) {
+                            statusCell.innerHTML = '<span class="status present"></span> Present';
+                        } else {
+                            statusCell.innerHTML = '<span class="status absent"></span> Absent';
+                        }
+                    }
+                });
+            }
+        }
+        
+        // Call loadAttendance when the page loads
+        window.addEventListener('load', loadAttendance);
+    </script>
+</body>
+</html>

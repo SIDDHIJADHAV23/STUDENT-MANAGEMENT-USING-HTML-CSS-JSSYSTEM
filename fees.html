@@ -1,0 +1,834 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Infinity Knowledge Institute - Fees</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+        
+        body {
+            background-color: #f0f3f7;
+        }
+        
+        .navbar {
+            display: flex;
+            align-items: center;
+            padding: 10px 20px;
+            background: linear-gradient(90deg,#3f37c9 0%, #3f37c9 100%);
+
+            color: white;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo img {
+            width: 50px;
+            height: 50px;
+            margin-right: 10px;
+        }
+        
+        .logo-text {
+            font-size: 22px;
+            font-weight: bold;
+        }
+        
+        .nav-links {
+            display: flex;
+            margin-left: auto;
+        }
+        
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+            font-size: 16px;
+        }
+        
+        .nav-links a.active {
+            border-bottom: 3px solid white;
+        }
+        
+        .container {
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .user-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #4d7cde;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-right: 15px;
+        }
+        
+        .user-info .badge {
+            background-color: #5763e8;
+            color: white;
+            padding: 3px 8px;
+            border-radius: 5px;
+            font-size: 12px;
+            margin-left: 10px;
+        }
+        
+        .welcome-section {
+            margin-bottom: 30px;
+        }
+        
+        .welcome-section h1 {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+        
+        .welcome-section p {
+            color: #666;
+        }
+        
+        .action-buttons {
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 20px;
+        }
+        
+        .btn {
+            padding: 8px 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: white;
+            color: #333;
+            font-size: 14px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            margin-left: 10px;
+        }
+        
+        .btn i {
+            margin-right: 5px;
+        }
+        
+        .card {
+            background-color: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+        
+        .card-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .card-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            background-color: #4d7cde;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            font-size: 20px;
+        }
+        
+        .card-title {
+            font-size: 18px;
+            font-weight: bold;
+        }
+        
+        .view-all {
+            margin-left: auto;
+            color: #4d7cde;
+            text-decoration: none;
+            font-size: 14px;
+        }
+        
+        .fee-overview {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+        
+        .fee-item {
+            flex: 1;
+            min-width: 200px;
+            padding: 15px;
+            text-align: center;
+        }
+        
+        .fee-amount {
+            font-size: 24px;
+            font-weight: bold;
+            margin: 10px 0;
+            color: #2a4ba0;
+        }
+        
+        .fee-amount.danger {
+            color: #e74c3c;
+        }
+        
+        .fee-label {
+            color: #777;
+            font-size: 14px;
+        }
+        
+        .fee-date {
+            font-size: 14px;
+            color: #e74c3c;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+        
+        th {
+            color: #777;
+            font-weight: normal;
+            font-size: 14px;
+        }
+        
+        .status {
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        
+        .status-paid {
+            background-color: #d5f5e3;
+            color: #27ae60;
+        }
+        
+        .status-partial {
+            background-color: #fcf3cf;
+            color: #f39c12;
+        }
+        
+        .status-pending {
+            background-color: #ebf5fb;
+            color: #3498db;
+        }
+        
+        .status-overdue {
+            background-color: #fadbd8;
+            color: #e74c3c;
+        }
+        
+        .search-filter {
+            display: flex;
+            margin-bottom: 20px;
+        }
+        
+        .search-input {
+            flex: 1;
+            padding: 10px 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin-right: 10px;
+        }
+        
+        .filter-select {
+            padding: 10px 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: white;
+        }
+        
+        .fee-breakdown {
+            display: flex;
+            flex-wrap: wrap;
+        }
+        
+        .breakdown-item {
+            flex: 1;
+            min-width: 150px;
+            margin: 10px;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            text-align: center;
+        }
+        
+        .breakdown-amount {
+            font-size: 18px;
+            font-weight: bold;
+            margin: 5px 0;
+        }
+        
+        .payment-form {
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            font-size: 14px;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        
+        .btn-primary {
+            background-color: #2a4ba0;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        
+        .notification {
+            padding: 15px;
+            border-left: 4px solid;
+            margin-bottom: 15px;
+            border-radius: 0 5px 5px 0;
+        }
+        
+        .notification-warning {
+            background-color: #fff3cd;
+            border-color: #ffeeba;
+            color: #856404;
+        }
+        
+        .notification-danger {
+            background-color: #f8d7da;
+            border-color: #f5c6cb;
+            color: #721c24;
+        }
+        
+        .fee-progress {
+            height: 8px;
+            background-color: #e9ecef;
+            border-radius: 4px;
+            margin-top: 10px;
+            overflow: hidden;
+        }
+        
+        .progress-bar {
+            height: 100%;
+            background-color: #2a4ba0;
+        }
+        
+        /* Modal styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 999;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+        }
+        
+        .modal-content {
+            background-color: white;
+            margin: 10% auto;
+            padding: 20px;
+            border-radius: 10px;
+            max-width: 500px;
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .modal-title {
+            font-size: 18px;
+            font-weight: bold;
+        }
+        
+        .close {
+            font-size: 24px;
+            cursor: pointer;
+        }
+        
+        .modal-footer {
+            margin-top: 20px;
+            display: flex;
+            justify-content: flex-end;
+        }
+        
+        @media (max-width: 768px) {
+            .fee-item, .breakdown-item {
+                min-width: 100%;
+                margin-bottom: 15px;
+            }
+            
+            .search-filter {
+                flex-direction: column;
+            }
+            
+            .search-input {
+                margin-right: 0;
+                margin-bottom: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <div class="navbar">
+        <div class="logo">
+            <img src="IKI.jpg" alt="Infinity Knowledge Institute Logo" />
+            <div class="logo-text">Infinity Knowledge Institute</div>
+        </div>
+        <div class="nav-links">
+            <a href="home.html">Home</a>
+            <a href="students.html">Students</a>
+            <a href="course.html">Courses</a>
+            <a href="attendance.html">Attendance</a>
+            <a href="fees.html" class="active">Fees</a>
+            <a href="login.html">Login</a>
+        </div>
+    </div>
+    
+    <!-- Main Content -->
+    <div class="container">
+        <!-- User Header -->
+        <div class="user-header">
+            <div class="user-avatar">JD</div>
+            <div class="user-info">
+                <div>siddhi jadhav <span class="badge">Student</span></div>
+            </div>
+        </div>
+        
+        <!-- Welcome Section -->
+        <div class="welcome-section">
+            <h1>Fee Management</h1>
+            <p>View and manage your fee payments and schedules.</p>
+        </div>
+        
+        <!-- Action Buttons -->
+        <div class="action-buttons">
+            <button class="btn" id="downloadReceiptBtn"><i>📄</i> Download Receipt</button>
+            <button class="btn" id="makePaymentBtn"><i>💰</i> Make Payment</button>
+        </div>
+        
+        <!-- Fee Overview Card -->
+        <div class="card">
+            <div class="card-header">
+                <div class="card-icon">💵</div>
+                <div class="card-title">Student Fee Overview</div>
+            </div>
+            
+            <div class="fee-overview">
+                <div class="fee-item">
+                    <div class="fee-label">Total Fee Amount</div>
+                    <div class="fee-amount">₹75,000</div>
+                </div>
+                <div class="fee-item">
+                    <div class="fee-label">Amount Paid</div>
+                    <div class="fee-amount">₹45,000</div>
+                </div>
+                <div class="fee-item">
+                    <div class="fee-label">Balance Due</div>
+                    <div class="fee-amount danger">₹30,000</div>
+                    <div class="fee-date">Due: March 30, 2025</div>
+                </div>
+            </div>
+            
+            <div class="fee-progress">
+                <div class="progress-bar" style="width: 60%"></div>
+            </div>
+        </div>
+        
+        <!-- Notifications & Alerts -->
+        <div class="notification notification-warning">
+            <strong>Upcoming Payment:</strong> Your next fee installment of ₹15,000 is due on March 30, 2025.
+        </div>
+        
+        <!-- Fee Breakdown Card -->
+        <div class="card">
+            <div class="card-header">
+                <div class="card-icon">📊</div>
+                <div class="card-title">Fee Breakdown</div>
+            </div>
+            
+            <div class="fee-breakdown">
+                <div class="breakdown-item">
+                    <div class="fee-label">Tuition Fee</div>
+                    <div class="breakdown-amount">₹60,000</div>
+                </div>
+                <div class="breakdown-item">
+                    <div class="fee-label">Exam Fees</div>
+                    <div class="breakdown-amount">₹8,000</div>
+                </div>
+                <div class="breakdown-item">
+                    <div class="fee-label">Library Fees</div>
+                    <div class="breakdown-amount">₹3,000</div>
+                </div>
+                <div class="breakdown-item">
+                    <div class="fee-label">Miscellaneous</div>
+                    <div class="breakdown-amount">₹4,000</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Payment History Card -->
+        <div class="card">
+            <div class="card-header">
+                <div class="card-icon">📝</div>
+                <div class="card-title">Payment Status & History</div>
+                <a href="#" class="view-all">View All</a>
+            </div>
+            
+            <!-- Search & Filter -->
+            <div class="search-filter">
+                <input type="text" class="search-input" placeholder="Search by transaction ID or date...">
+                <select class="filter-select">
+                    <option value="all">All</option>
+                    <option value="paid">Paid</option>
+                    <option value="partial">Partially Paid</option>
+                    <option value="pending">Pending</option>
+                    <option value="overdue">Overdue</option>
+                </select>
+            </div>
+            
+            <table>
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Transaction ID</th>
+                        <th>Amount</th>
+                        <th>Payment Method</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Jan 15, 2025</td>
+                        <td>TXN-10045678</td>
+                        <td>₹30,000</td>
+                        <td>Bank Transfer</td>
+                        <td><span class="status status-paid">Paid</span></td>
+                        <td><a href="#" class="view-receipt">View Receipt</a></td>
+                    </tr>
+                    <tr>
+                        <td>Dec 05, 2024</td>
+                        <td>TXN-10042356</td>
+                        <td>₹15,000</td>
+                        <td>UPI</td>
+                        <td><span class="status status-paid">Paid</span></td>
+                        <td><a href="#" class="view-receipt">View Receipt</a></td>
+                    </tr>
+                    <tr>
+                        <td>Mar 30, 2025</td>
+                        <td>TXN-Pending</td>
+                        <td>₹15,000</td>
+                        <td>-</td>
+                        <td><span class="status status-pending">Pending</span></td>
+                        <td><button class="btn-pay-now">Pay Now</button></td>
+                    </tr>
+                    <tr>
+                        <td>Jun 10, 2025</td>
+                        <td>TXN-Pending</td>
+                        <td>₹15,000</td>
+                        <td>-</td>
+                        <td><span class="status status-pending">Pending</span></td>
+                        <td>-</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    
+    <!-- Payment Modal -->
+    <div id="paymentModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title">Make Payment</div>
+                <span class="close">&times;</span>
+            </div>
+            
+            <div class="payment-form">
+                <div class="form-group">
+                    <label>Payment Amount (₹)</label>
+                    <input type="number" class="form-control" id="paymentAmount" value="15000">
+                </div>
+                
+                <div class="form-group">
+                    <label>Payment Method</label>
+                    <select class="form-control" id="paymentMethod">
+                        <option value="card">Credit/Debit Card</option>
+                        <option value="bank">Bank Transfer</option>
+                        <option value="upi">UPI</option>
+                        <option value="cash">Cash</option>
+                    </select>
+                </div>
+                
+                <div id="cardDetails" class="form-group">
+                    <label>Card Number</label>
+                    <input type="text" class="form-control" placeholder="XXXX XXXX XXXX XXXX">
+                    
+                    <div style="display: flex; gap: 10px; margin-top: 10px;">
+                        <div style="flex: 1;">
+                            <label>Expiry Date</label>
+                            <input type="text" class="form-control" placeholder="MM/YY">
+                        </div>
+                        <div style="flex: 1;">
+                            <label>CVV</label>
+                            <input type="password" class="form-control" placeholder="XXX">
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="upiDetails" class="form-group" style="display: none;">
+                    <label>UPI ID</label>
+                    <input type="text" class="form-control" placeholder="username@upi">
+                </div>
+                
+                <div id="bankDetails" class="form-group" style="display: none;">
+                    <label>Bank Account Number</label>
+                    <input type="text" class="form-control" placeholder="Enter account number">
+                    
+                    <label style="margin-top: 10px;">IFSC Code</label>
+                    <input type="text" class="form-control" placeholder="Enter IFSC code">
+                </div>
+            </div>
+            
+            <div class="modal-footer">
+                <button class="btn" id="cancelPayment">Cancel</button>
+                <button class="btn btn-primary" id="confirmPayment">Confirm Payment</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Receipt Modal -->
+    <div id="receiptModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title">Payment Receipt</div>
+                <span class="close">&times;</span>
+            </div>
+            
+            <div style="padding: 20px; border: 1px dashed #ddd; margin: 20px 0;">
+                <div style="text-align: center; margin-bottom: 20px;">
+                    <h2>Infinity Knowledge Institute</h2>
+                    <p>Payment Receipt</p>
+                </div>
+                
+                <div style="margin-bottom: 20px;">
+                    <p><strong>Receipt No:</strong> <span id="receiptNo">REC-10045678</span></p>
+                    <p><strong>Date:</strong> <span id="receiptDate">Jan 15, 2025</span></p>
+                </div>
+                
+                <div style="margin-bottom: 20px;">
+                    <p><strong>Student Name:</strong> Siddhi Jadhav</p>
+                    <p><strong>Student ID:</strong> STD-2023-1045</p>
+                    <p><strong>Class:</strong> BCA</p>
+                </div>
+                
+                <table style="width: 100%; margin-bottom: 20px;">
+                    <tr>
+                        <th style="text-align: left;">Description</th>
+                        <th style="text-align: right;">Amount</th>
+                    </tr>
+                    <tr>
+                        <td>Tuition Fee (Installment 1)</td>
+                        <td style="text-align: right;">₹30,000</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Total</strong></td>
+                        <td style="text-align: right;"><strong>₹30,000</strong></td>
+                    </tr>
+                </table>
+                
+                <div>
+                    <p><strong>Payment Method:</strong> <span id="receiptPaymentMethod">Bank Transfer</span></p>
+                    <p><strong>Transaction ID:</strong> <span id="receiptTransactionId">TXN-10045678</span></p>
+                    <p><strong>Status:</strong> <span style="color: #27ae60;">PAID</span></p>
+                </div>
+                
+                <div style="margin-top: 30px; text-align: center;">
+                    <p>This is a computer generated receipt and does not require a signature.</p>
+                </div>
+            </div>
+            
+            <div class="modal-footer">
+                <button class="btn" id="closeReceipt">Close</button>
+                <button class="btn btn-primary" id="downloadPDF">Download PDF</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Success Modal -->
+    <div id="successModal" class="modal">
+        <div class="modal-content" style="text-align: center; max-width: 400px;">
+            <div style="font-size: 50px; color: #27ae60; margin: 20px 0;">✓</div>
+            <h2>Payment Successful!</h2>
+            <p style="margin: 15px 0;">Your payment of ₹15,000 has been successfully processed.</p>
+            <p>Transaction ID: <strong>TXN-10048792</strong></p>
+            <div style="margin-top: 30px;">
+                <button class="btn btn-primary" id="viewSuccessReceipt">View Receipt</button>
+                <button class="btn" id="closeSuccessModal" style="margin-left: 10px;">Close</button>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Modal functionality
+        const paymentModal = document.getElementById('paymentModal');
+        const receiptModal = document.getElementById('receiptModal');
+        const successModal = document.getElementById('successModal');
+        const makePaymentBtn = document.getElementById('makePaymentBtn');
+        const downloadReceiptBtn = document.getElementById('downloadReceiptBtn');
+        const closeBtns = document.getElementsByClassName('close');
+        const payNowBtns = document.getElementsByClassName('btn-pay-now');
+        const viewReceiptLinks = document.getElementsByClassName('view-receipt');
+        const confirmPaymentBtn = document.getElementById('confirmPayment');
+        const cancelPaymentBtn = document.getElementById('cancelPayment');
+        const closeReceiptBtn = document.getElementById('closeReceipt');
+        const closeSuccessModalBtn = document.getElementById('closeSuccessModal');
+        const viewSuccessReceiptBtn = document.getElementById('viewSuccessReceipt');
+        const paymentMethodSelect = document.getElementById('paymentMethod');
+        const cardDetails = document.getElementById('cardDetails');
+        const upiDetails = document.getElementById('upiDetails');
+        const bankDetails = document.getElementById('bankDetails');
+        
+        // Open payment modal
+        makePaymentBtn.onclick = function() {
+            paymentModal.style.display = "block";
+        }
+        
+        // Open payment modal from "Pay Now" buttons
+        for (let btn of payNowBtns) {
+            btn.onclick = function() {
+                paymentModal.style.display = "block";
+            }
+        }
+        
+        // Open receipt modal
+        downloadReceiptBtn.onclick = function() {
+            receiptModal.style.display = "block";
+        }
+        
+        // Open receipt modal from "View Receipt" links
+        for (let link of viewReceiptLinks) {
+            link.onclick = function(e) {
+                e.preventDefault();
+                receiptModal.style.display = "block";
+            }
+        }
+        
+        // Close modals
+        for (let closeBtn of closeBtns) {
+            closeBtn.onclick = function() {
+                paymentModal.style.display = "none";
+                receiptModal.style.display = "none";
+                successModal.style.display = "none";
+            }
+        }
+        
+        // Close receipt modal
+        closeReceiptBtn.onclick = function() {
+            receiptModal.style.display = "none";
+        }
+        
+        // Close success modal
+        closeSuccessModalBtn.onclick = function() {
+            successModal.style.display = "none";
+        }
+        
+        // View receipt from success modal
+        viewSuccessReceiptBtn.onclick = function() {
+            successModal.style.display = "none";
+            receiptModal.style.display = "block";
+            document.getElementById('receiptNo').textContent = "REC-10048792";
+            document.getElementById('receiptDate').textContent = new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+            document.getElementById('receiptPaymentMethod').textContent = paymentMethodSelect.options[paymentMethodSelect.selectedIndex].text;
+            document.getElementById('receiptTransactionId').textContent = "TXN-10048792";
+        }
+        
+        // Cancel payment
+        cancelPaymentBtn.onclick = function() {
+            paymentModal.style.display = "none";
+        }
+        
+        // Confirm payment (simulate payment processing)
+        confirmPaymentBtn.onclick = function() {
+            paymentModal.style.display = "none";
+            setTimeout(function() {
+                successModal.style.display = "block";
+            }, 500);
+        }
+        
+        // Toggle payment method fields
+        paymentMethodSelect.onchange = function() {
+            cardDetails.style.display = "none";
+            upiDetails.style.display = "none";
+            bankDetails.style.display = "none";
+            
+            switch(paymentMethodSelect.value) {
+                case "card":
+                    cardDetails.style.display = "block";
+                    break;
+                case "upi":
+                    upiDetails.style.display = "block";
+                    break;
+                case "bank":
+                    bankDetails.style.display = "block";
+                    break;
+            }
+        }
+        
+        // Close modals when clicking outside
+        window.onclick = function(event) {
+            if (event.target == paymentModal) {
+                paymentModal.style.display = "none";
+            } else if (event.target == receiptModal) {
+                receiptModal.style.display = "none";
+            } else if (event.target == successModal) {
+                successModal.style.display = "none";
+            }
+        }
+    </script>
+</body>
+</html>

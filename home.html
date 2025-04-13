@@ -1,0 +1,935 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Infinity Knowledge Institute - School Management System</title>
+    <style>
+        :root {
+            --primary: #4361ee;
+            --secondary:  #3f37c9;
+            --accent: #4cc9f0;
+            --success: #4CAF50;
+            --warning: #ff9e00;
+            --danger: #ef476f;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --gray: #6c757d;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva , Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fb;
+            color: var(--dark);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        /* Navigation */
+        nav {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            padding: 1rem 2rem;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .logo-icon {
+            font-size: 1.8rem;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+        }
+        
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s;
+            padding: 0.5rem 0.8rem;
+            border-radius: 5px;
+        }
+        
+        .nav-links a:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+        
+        .user-menu {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            position: relative;
+        }
+        
+        .user-name {
+            font-weight: 500;
+        }
+        
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--accent);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: white;
+        }
+        
+        /* Main content */
+        main {
+            flex: 1;
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+        
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .welcome-message h1 {
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .welcome-message p {
+            color: var(--gray);
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 1rem;
+        }
+        
+        .btn {
+            padding: 0.7rem 1.2rem;
+            border: none;
+            border-radius: 5px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background-color: var(--secondary);
+        }
+        
+        .btn-outline {
+            background-color: transparent;
+            border: 1px solid var(--primary);
+            color: var(--primary);
+        }
+        
+        .btn-outline:hover {
+            background-color: var(--primary);
+            color: rgb(252, 246, 246);
+        }
+        
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .card {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(44, 110, 177, 0.871);
+            padding: 1.5rem;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(206, 127, 240, 0.884);
+        }
+        
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        
+        .card-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .card-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.2rem;
+        }
+        
+        .icon-blue {
+            background-color: var(--primary);
+        }
+        
+        .icon-green {
+            background-color: var(--success);
+        }
+        
+        .icon-orange {
+            background-color: var(--warning);
+        }
+        
+        .icon-red {
+            background-color: var(--danger);
+        }
+        
+        .card-subtitle {
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+        
+        .view-all {
+            color: var(--primary);
+            font-weight: 500;
+            font-size: 0.9rem;
+            text-decoration: none;
+        }
+        
+        .card-content {
+            margin-top: 1rem;
+        }
+        
+        .stat-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+        }
+        
+        .stat-item {
+            text-align: center;
+            background-color: #f8f9fa;
+            padding: 1rem;
+            border-radius: 8px;
+        }
+        
+        .stat-value {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--primary);
+        }
+        
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--gray);
+            margin-top: 0.3rem;
+        }
+        
+        .list-item {
+            display: flex;
+            align-items: center;
+            padding: 0.8rem 0;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .list-item:last-child {
+            border-bottom: none;
+        }
+        
+        .list-item-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 10px;
+            font-size: 0.9rem;
+            color: white;
+        }
+        
+        .list-item-content {
+            flex: 1;
+        }
+        
+        .list-item-title {
+            font-weight: 500;
+        }
+        
+        .list-item-subtitle {
+            font-size: 0.85rem;
+            color: var(--gray);
+        }
+        
+        .calendar-view .list-item-title {
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .badge {
+            display: inline-block;
+            padding: 0.25em 0.6em;
+            font-size: 0.75em;
+            font-weight: 500;
+            line-height: 1;
+            color: rgb(232, 243, 232);
+            border-radius: 0.25rem;
+        }
+        
+        .badge-success {
+            background-color: var(--success);
+        }
+        
+        .badge-warning {
+            background-color: var(--warning);
+        }
+        
+        .badge-danger {
+            background-color: var(--danger);
+        }
+        
+        .attendance-chart {
+            height: 180px;
+            display: flex;
+            align-items: flex-end;
+            gap: 10px;
+            padding-top: 1rem;
+        }
+        
+        .chart-bar {
+            flex: 1;
+            background-color: #edf6ee;
+            border-radius: 5px 5px 0 0;
+            position: relative;
+        }
+        
+        .chart-bar-fill {
+            width: 100%;
+            background-color: var(--primary);
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            border-radius: 5px 5px 0 0;
+        }
+        
+        .chart-label {
+            text-align: center;
+            font-size: 0.8rem;
+            color: var(--gray);
+            margin-top: 5px;
+        }
+        
+        .tab-container {
+            margin-top: 1rem;
+        }
+        
+        .tabs {
+            display: flex;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .tab {
+            padding: 0.8rem 1.2rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            border-bottom: 2px solid transparent;
+        }
+        
+        .tab.active {
+            border-bottom: 2px solid var(--primary);
+            color: var(--primary);
+            font-weight: 500;
+        }
+        
+        .tab-content {
+            padding: 1rem 0;
+        }
+        
+        .role-indicator {
+            background-color: var(--primary);
+            color: white;
+            padding: 0.3rem 0.6rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+        
+        /* Footer */
+        footer {
+            background-color: white;
+            padding: 1.5rem 2rem;
+            text-align: center;
+            border-top: 1px solid #eee;
+            margin-top: auto;
+        }
+        
+        .footer-text {
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+        
+        /* Login screen styling (hidden by default) */
+        #login-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--primary);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        
+        .login-container {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+            overflow: hidden;
+        }
+        
+        .login-header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 2rem;
+            text-align: center;
+        }
+        
+        .login-header h1 {
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .login-form {
+            padding: 2rem;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            transition: all 0.3s;
+        }
+        
+        .form-control:focus {
+            border-color: var(--primary);
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(67, 124, 238, 0.2);
+        }
+        
+        .form-footer {
+            text-align: center;
+            margin-top: 1rem;
+        }
+        
+        .form-footer a {
+            color: var(--primary);
+            text-decoration: none;
+        }
+        
+        .btn-block {
+            width: 100%;
+        }
+        
+        .role-selector {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .role-option {
+            flex: 1;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 1rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .role-option:hover {
+            border-color: var(--primary);
+        }
+        
+        .role-option.selected {
+            border-color: var(--primary);
+            background-color: rgba(67, 97, 238, 0.1);
+        }
+        
+        .role-icon {
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+            color: var(--primary);
+        }
+        
+        .role-title {
+            font-weight: 500;
+        }
+        
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+        
+        .modal-content {
+            background-color: white;
+            border-radius: 10px;
+            max-width: 500px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .modal-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+        
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 1.2rem;
+            cursor: pointer;
+            color: var(--gray);
+        }
+        
+        .modal-body {
+            padding: 1.5rem;
+        }
+        
+        .modal-footer {
+            padding: 1rem 1.5rem;
+            border-top: 1px solid #eee;
+            display: flex;
+            justify-content: flex-end;
+            gap: 1rem;
+        }
+        
+        /* Switches */
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 24px;
+        }
+        
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #b1a4b8;
+            transition: .4s;
+            border-radius: 24px;
+        }
+        
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 16px;
+            width: 16px;
+            left: 4px;
+            bottom: 4px;
+            background-color: #b1a4b8;
+            transition: .4s;
+            border-radius: 50%;
+        }
+        
+        input:checked + .slider {
+            background-color: var(--primary);
+        }
+        
+        input:checked + .slider:before {
+            transform: translateX(26px);
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Login Screen -->
+    <div id="login-screen">
+        <div class="login-container">
+            <div class="login-header">
+                <h1>Infinity Knowledge Institute</h1>            
+
+                <p>School Management System</p>
+            </div>
+            <div class="login-form">
+                <div class="role-selector">
+                    <div class="role-option" onclick="selectRole(this, 'admin')">
+                        <div class="role-icon">👨‍💼</div>
+                        <div class="role-title">Admin</div>
+                    </div>
+                    <div class="role-option" onclick="selectRole(this, 'teacher')">
+                        <div class="role-icon">👨‍🏫</div>
+                        <div class="role-title">Teacher</div>
+                    </div>
+                </div>
+                <div class="role-selector">
+                    <div class="role-option" onclick="selectRole(this, 'student')">
+                        <div class="role-icon">👨‍🎓</div>
+                        <div class="role-title">Student</div>
+                    </div>
+                    <div class="role-option" onclick="selectRole(this, 'parent')">
+                        <div class="role-icon">👪</div>
+                        <div class="role-title">Parent</div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="username">Username</label>
+                    <input type="text" class="form-control" id="username" placeholder="Enter your username">
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="password">Password</label>
+                    <input type="password" class="form-control" id="password" placeholder="Enter your password">
+                </div>
+                <button class="btn btn-primary btn-block" onclick="login()">Login</button>
+                <div class="form-footer">
+                    <a href="#">Forgot password?</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Dashboard -->
+    <nav>
+        <div class="logo">
+<img src="IKI.jpg"alyt="image" height="60" width="60">
+            
+            <span>Infinity Knowledge Institute</span>
+        </div><div class="nav-links">
+                
+                    <a href="#" class="active">Home</a>
+                    <a href="students.html">Students</a>
+                    <a href="course.html">Courses</a>
+                    <a href="attendance.html">Attendance</a>
+                    <a href="fees.html">Fees</a>
+                    <a href="login.html" class="login-btn">Login</a>
+                
+            </nav>
+        <div class="user-menu" onclick="toggleDropdown()">
+            <div class="user-avatar">JD</div>
+            <span class="user-name">siddhi jadhav</span>
+            <span class="role-indicator" id="role-badge">Student</span>
+        </div>
+    </nav>
+    
+    <main>
+        <div class="dashboard-header">
+            <div class="welcome-message">
+                <h1>Welcome back, <span id="user-greeting">siddhi</span>!</h1>
+                <p>Here's what's happening at your college today.</p>
+            </div>
+            <div class="action-buttons">
+                <button class="btn btn-outline">
+                    <span>📊</span>
+                    <span>Export Reports</span>
+                </button>
+                <button class="btn btn-outline">
+                    <span>📝</span>
+                    <a href="attendance.html"><span>Take Attendance</span></a>
+                </button>
+            </div>
+        </div>
+        
+        <div class="dashboard-grid">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">
+                        <div class="card-icon icon-blue">👥</div>
+                        <span>Student Overview</span>
+                    </div>
+                    <a href="#" class="view-all">View All</a>
+                </div>
+                <div class="stat-grid">
+                    <div class="stat-item">
+                        <div class="stat-value">1,245</div>
+                        <div class="stat-label">Total Students</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">87%</div>
+                        <div class="stat-label">Attendance Rate</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">42</div>
+                        <div class="stat-label">Classes</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">98%</div>
+                        <div class="stat-label">Pass Rate</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">
+                        <div class="card-icon icon-green">📅</div>
+                        <span>Attendance Today</span>
+                    </div>
+                    <a href="#" class="view-all">Details</a>
+                </div>
+                <div class="card-content">
+                    <div class="attendance-chart">
+                        <div class="chart-bar" style="height: 180px;">
+                            <div class="chart-bar-fill" style="height: 90%;"></div>
+                            <div class="chart-label">BCOM</div>
+                        </div>
+                        <div class="chart-bar" style="height: 180px;">
+                            <div class="chart-bar-fill" style="height: 85%;"></div>
+                            <div class="chart-label">BCA</div>
+                        </div>
+                        <div class="chart-bar" style="height: 180px;">
+                            <div class="chart-bar-fill" style="height: 95%;"></div>
+                            <div class="chart-label">BBA</div>
+                        </div>
+                        <div class="chart-bar" style="height: 180px;">
+                            <div class="chart-bar-fill" style="height: 88%;"></div>
+                            <div class="chart-label">BBA-IB</div>
+                        </div>
+                        <div class="chart-bar" style="height: 180px;">
+                            <div class="chart-bar-fill" style="height: 78%;"></div>
+                            <div class="chart-label">BCS</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">
+                        <div class="card-icon icon-orange">📝</div>
+                        <span>Recent Assignments</span>
+                    </div>
+                    <a href="#" class="view-all">View All</a>
+                </div>
+                <div class="card-content">
+                    <div class="list-item">
+                        <div class="list-item-icon icon-blue">📘</div>
+                        <div class="list-item-content">
+                            <div class="list-item-title">OPERATING SYSTEM</div>
+                            <div class="list-item-subtitle">Due: Feb 28, 2025</div>
+                        </div>
+                    </div>
+                    <div class="list-item">
+                        <div class="list-item-icon icon-green">📗</div>
+                        <div class="list-item-content">
+                            <div class="list-item-title">CPP</div>
+                            <div class="list-item-subtitle">Due: Mar 3, 2025</div>
+                        </div>
+                    </div>
+                    <div class="list-item">
+                        <div class="list-item-icon icon-red">📕</div>
+                        <div class="list-item-content">
+                            <div class="list-item-title">PHP</div>
+                            <div class="list-item-subtitle">Due: Mar 5, 2025</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">
+                        <div class="card-icon icon-red">🔔</div>
+                        <span>Announcements</span>
+                    </div>
+                    <a href="#" class="view-all">View All</a>
+                </div>
+                <div class="card-content">
+                    <div class="list-item">
+                        <div class="list-item-icon icon-red">📢</div>
+                        <div class="list-item-content">
+                            <div class="list-item-title">Parent-Teacher Meeting</div>
+                            <div class="list-item-subtitle">March 10, 2025 from 3PM - 6PM</div>
+                        </div>
+                    </div>
+                    <div class="list-item">
+                        <div class="list-item-icon icon-orange">🏆</div>
+                        <div class="list-item-content">
+                            <div class="list-item-title">Annual Sports Day</div>
+                            <div class="list-item-subtitle">March 15, 2025</div>
+                        </div>
+                    </div>
+                    <div class="list-item">
+                        <div class="list-item-icon icon-blue">🎭</div>
+                        <div class="list-item-content">
+                            <div class="list-item-title">Cultural Festival</div>
+                            <div class="list-item-subtitle">Preparations starting next week</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">
+                        <div class="card-icon icon-green">📊</div>
+                        <span>Attendance Alerts</span>
+                    </div>
+                    <a href="#" class="view-all">View All</a>
+                </div>
+                <div class="card-content">
+                    <div class="list-item">
+                        <div class="list-item-icon icon-red">⚠</div>
+                        <div class="list-item-content">
+                            <div class="list-item-title">Siddhi Jadhav BCA</div>
+                            <div class="list-item-subtitle">Attendance below 75%</div>
+                        </div>
+                        <span class="badge badge-danger">65%</span>
+                    </div>
+                    <div class="list-item">
+                        <div class="list-item-icon icon-orange">⚠</div>
+                        <div class="list-item-content">
+                            <div class="list-item-title">Anushka Deshmukh BCA</div>
+                            <div class="list-item-subtitle">Missed 3 consecutive days</div>
+                        </div>
+                        <span class="badge badge-warning">78%</span>
+                    </div>
+                    <div class="list-item">
+                        <div class="list-item-icon icon-orange">⚠</div>
+                        <div class="list-item-content">
+                            <div class="list-item-title">Neha Yadav Bcom </div>
+                            <div class="list-item-subtitle">Attendance declining</div>
+                        </div>
+                        <span class="badge badge-warning">79%</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">
+                        <div class="card-icon icon-blue">📅</div>
+                        <span>Upcoming Events</span>
+                    </div>
+                    <a href="#" class="view-all">Calendar</a>
+                </div>
+                <div class="card-content calendar-view">
+                    <div class="list-item">
+                        <div class="list-item-icon icon-green">📚</div>
+                        <div class="list-item-content">
+                            <div class="list-item-title">
+                                <span>Techno</span>
+                                <span>Feb 28</span>
+                            </div>
+                            <div class="list-item-subtitle">For Classes BCA,BCS</div>
+                        </div>
+                    </div>
+                    <div class="list-item">
+                        <div class="list-item-icon icon-blue">🏫</div>
+                        <div class="list-item-content">
+                            <div class="list-item-title">
+                                <span>University visit</span>
+                                <span>Mar 5</span>
+                            </div>
+                            <div class="list-item-subtitle">All Classes</div>
+                        </div>
+                    </div>
+                    <div class="list-item">
+                        <div class="list-item-icon icon-orange">👨‍👩‍👧‍👦</div>
+                        <div class="list-item-content">
+                            <div class="list-item-title">
+                                <span>Parent-Teacher Meeting</span>
+                                <span>Mar 10</span>
+                            </div>
+                            <div class="list-item-subtitle">3PM - 6PM</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <footer>
+        <div class="footer-text">
+            &copy; 2025 Infinity Knowledge Institute Student Management System. All rights reserved.
+        </div>
+    </footer>
+
+    
+    <script >

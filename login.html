@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IKI - Login</title>
+    <link rel="stylesheet" href="style.css">
+    <script defer src="script.js"></script>
+</head>
+<body>
+    <div class="login-container">
+        <div class="logo">
+            <img src="IKI.jpg" alt="IKI Logo">
+            <h2>Infinity Knowledge Institute</h2>
+        </div>
+        
+        <div class="login-box">
+            <h3 id="role-title">Login as Student</h3>
+            <select id="user-role" onchange="changeRole()">
+                <option value="student">Student</option>
+                <option value="teacher">Teacher</option>
+                <option value="parent">Parent</option>
+                <option value="admin">Admin</option>
+            </select>
+
+            <input type="text" id="username" placeholder="Username" onkeypress="return validateUsernameInput(event)">
+            <input type="password" id="password" placeholder="Password">
+            
+            <button onclick="validateLogin()">Login</button>
+            <p class="forgot-password">Forgot Password?</p>
+            <p id="login-message"></p>
+        </div>
+    </div>
+
+    <script>
+        function validateUsernameInput(event) {
+            // Get the character code from the keyboard event
+            const charCode = event.charCode || event.keyCode;
+            
+            // Allow only letters (both uppercase and lowercase)
+            // a-z: 97-122, A-Z: 65-90
+            if ((charCode >= 65 && charCode <= 90) || (charCode >= 97 && charCode <= 122)) {
+                return true;
+            } else {
+                event.preventDefault();
+                return false;
+            }
+        }
+
+        function validateLogin() {
+            let username = document.getElementById("username").value.trim();
+            let password = document.getElementById("password").value.trim();
+
+            if (username === "") {
+                alert("Please enter your username.");
+                return;
+            }
+            
+            // Additional check to ensure username only contains letters
+            if (!/^[a-zA-Z]+$/.test(username)) {
+                alert("Username must contain only alphabet characters.");
+                return;
+            }
+            
+            if (password === "") {
+                alert("Please enter your password.");
+                return;
+            }
+            if (password.length < 6) {
+                alert("Password must be at least 6 characters long.");
+                return;
+            }
+
+            // If everything is valid, proceed to login
+            alert("Login successful!");
+            window.location.href = "home.html"; // Redirect to home page
+        }
+    </script>
+</body>
+</html>
